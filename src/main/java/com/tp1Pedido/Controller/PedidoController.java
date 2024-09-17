@@ -15,8 +15,12 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping
-    public ResponseEntity<Void> criarPedido(@RequestParam Long produtoId, @RequestParam Integer quantidade) {
-        pedidoService.criarPedido(produtoId, quantidade);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> criarPedido(@RequestParam Long produtoId, @RequestParam Integer quantidade, @RequestParam Double dinheiro) {
+        try {
+            pedidoService.criarPedido(produtoId, quantidade, dinheiro);
+            return ResponseEntity.ok("Pedido criado com sucesso!");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
